@@ -2,7 +2,8 @@
 Android 浮动菜单效果
 
 ## 效果图
-![浮动菜单效果](http://github.com/itrenjunhua/FloatingMenu/raw/master/floating.gif)
+![浮动菜单效果](https://github.com/itrenjunhua/FloatingMenu/raw/master/floating.gif)
+![image](https://github.com/ButBueatiful/dotvim/raw/master/screenshots/vim-screenshot.jpg)
 ## 使用：
 ### 布局文件中添加代码：
       <com.renj.floatingmenu.weight.FloatingMenu
