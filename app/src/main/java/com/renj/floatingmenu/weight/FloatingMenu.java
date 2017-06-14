@@ -13,11 +13,19 @@ import android.view.animation.TranslateAnimation;
 
 /**
  * ======================================================================
+ * <p>
  * 作者：Renj
  * <p>
  * 创建时间：2017-06-14   13:28
  * <p>
- * 描述：自定义浮动菜单样式控件
+ * 描述：自定义浮动菜单样式控件<br/>
+ * 注意：<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ * 1.该控件必须包含3个及以上子控件<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ * 2.第一个子控件表示浮动菜单的母菜单，剩余的作为浮动控件的子菜单<br/>
+ * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ * 3.子菜单和母菜单之间的距离可以修改 RADIUS 的值<br/>
  * <p>
  * 修订历史：
  * <p>
@@ -25,7 +33,7 @@ import android.view.animation.TranslateAnimation;
  */
 public class FloatingMenu extends ViewGroup {
     // 子菜单和母菜单图标距离
-    private final static int RUDIOS = 250;
+    private final static int RADIUS = 250;
     // 当前菜单状态
     private MenuStatu currentStatu = MenuStatu.STATU_CLOSE;
 
@@ -70,7 +78,7 @@ public class FloatingMenu extends ViewGroup {
         measureChildren(widthMeasureSpec, heightMeasureSpec);
         int tempWidth = getChildAt(1).getMeasuredWidth();
         int tempHeight = getChildAt(childCount - 1).getMeasuredHeight();
-        setMeasuredDimension(RUDIOS + tempWidth, RUDIOS + tempHeight);
+        setMeasuredDimension(RADIUS + tempWidth, RADIUS + tempHeight);
     }
 
     @Override
@@ -79,11 +87,15 @@ public class FloatingMenu extends ViewGroup {
             int measuredWidth = getMeasuredWidth();
             int measuredHeight = getMeasuredHeight();
             int childCount = getChildCount();
+            // 计算每2个子菜单之间的角度值
+            float averageAngle = 90 / (childCount - 1 - 1);
+
             for (int i = 0; i < childCount; i++) {
                 final View childAt = getChildAt(i);
                 int childWidth = childAt.getMeasuredWidth();
                 int childHeight = childAt.getMeasuredHeight();
 
+                // 第一个子控件是母菜单
                 if (i == 0) {
                     int left = measuredWidth - childWidth;
                     int top = measuredHeight - childHeight;
@@ -95,12 +107,12 @@ public class FloatingMenu extends ViewGroup {
                             changeStatuAnim(300);
                         }
                     });
-                } else {
+                } else { // 其余的为子菜单
                     final int temp = i;
-                    float jiao = 90 / (childCount - 1 - 1);
-                    float jiJiao = (i - 1) * jiao;
-                    double centerX = RUDIOS * Math.cos(Math.PI / 180 * jiJiao);
-                    double centerY = RUDIOS * Math.sin(Math.PI / 180 * jiJiao);
+                    // 计算每一个子菜单的位置
+                    float calAngle = (i - 1) * averageAngle;
+                    double centerX = RADIUS * Math.cos(Math.PI / 180 * calAngle);
+                    double centerY = RADIUS * Math.sin(Math.PI / 180 * calAngle);
                     int left = (int) (measuredWidth - centerX - childWidth);
                     int top = (int) (measuredHeight - centerY - childHeight);
                     int right = (int) (measuredWidth - centerX);
@@ -181,14 +193,15 @@ public class FloatingMenu extends ViewGroup {
 
             float jiao = 90 / (childCount - 1 - 1);
             float jiJiao = (i - 1) * jiao;
-            float toX = (float) (RUDIOS * Math.cos(Math.PI / 180 * jiJiao));
-            float toY = (float) (RUDIOS * Math.sin(Math.PI / 180 * jiJiao));
+            float toX = (float) (RADIUS * Math.cos(Math.PI / 180 * jiJiao));
+            float toY = (float) (RADIUS * Math.sin(Math.PI / 180 * jiJiao));
 
             AnimationSet animationSet = new AnimationSet(true);
             RotateAnimation rotateAnim = new RotateAnimation(
                     0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
             TranslateAnimation translateAnimation;
             AlphaAnimation alphaAnimation;
+            // 根据子菜单状态实现不同的动画效果
             if (!isOpen()) {
                 translateAnimation = new TranslateAnimation(toX, 0, toY, 0);
                 alphaAnimation = new AlphaAnimation(0, 1);
