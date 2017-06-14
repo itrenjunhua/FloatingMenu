@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void setlistView() {
         final List<String> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 40; i++) {
             list.add("ListView Item Data - " + i);
         }
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
