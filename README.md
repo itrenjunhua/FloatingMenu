@@ -1,8 +1,10 @@
 # FloatingMenu
 Android 浮动菜单效果
 
-使用：
-布局文件中添加代码：
+## 效果图
+1[浮动菜单效果图](http://img.blog.csdn.net/20170614141749822?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSVRSZW5q/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
+## 使用：
+### 布局文件中添加代码：
   <com.renj.floatingmenu.weight.FloatingMenu
         android:id="@+id/floating"
         android:layout_width="wrap_content"
@@ -54,10 +56,10 @@ Android 浮动菜单效果
             android:src="@mipmap/ic_launcher_round" />
     </com.renj.floatingmenu.weight.FloatingMenu>
 
-设置子菜单点击监听：
-  floating.setOnItemMenuClickListener(new FloatingMenu.OnItemMenuClickListener() {
+### 设置子菜单点击监听：
+  <pre><code>floating.setOnItemMenuClickListener(new FloatingMenu.OnItemMenuClickListener() {
             @Override
             public void onItemMenuClick(View view, int position) {
                 Toast.makeText(MainActivity.this, "子菜单 - " + position, Toast.LENGTH_SHORT).show();
             }
-        });
+        });</code></pre>
